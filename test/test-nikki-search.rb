@@ -21,4 +21,9 @@ class NikkiSearchTest < Test::Unit::TestCase
     post "/search"
     assert_true(last_response.ok?)
   end
+
+  def test_register
+    get "/register", {"uri" => "http://myokoym.github.io/entries.html"}
+    assert_true(last_response.ok?)
+  end
 end
