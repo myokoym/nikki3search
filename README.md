@@ -1,8 +1,8 @@
-# nikki-search
+# nikki3search
 
 ## Usage
 
-http://myokoym.net/nikki-search/
+http://myokoym.net/nikki3search/
 
 ## Contributing
 
