@@ -1,0 +1,29 @@
+-# encoding: utf-8
+!!! XML
+!!!
+%html
+  %head
+    %meta{'http-equiv' => 'content-type', :content => 'text/html; charset=utf-8'}
+    %meta{'http-equiv' => 'content-style-type', :content => 'text/css'}
+    %meta{'http-equiv' => 'content-script-type', :content => 'text/javascript'}
+    %title nikki-search
+  %body
+    %h1 nikki-search
+
+    Powered by
+    %a{:href => "http://www.ruby-lang.org/ja/"} Ruby
+    ,
+    %a{:href => "http://www.sinatrarb.com/intro-jp.html"} Sinatra
+    ,
+    %a{:href => "http://haml-lang.com/"} Haml
+    , and
+    %a{:href => "http://ranguba.org/"} rroonga
+
+    %form{:action => url("/search", false, true), :method => "post"}
+      %p
+        %input{:type => "text", :name => "word", :size => 30, :value => @params[:word]}
+        %input{:type => "submit", :value => "search!"}
+    %p
+      - if @pages
+        - @pages.each do |page|
+          = page
