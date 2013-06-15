@@ -16,7 +16,7 @@
     %a{:href => "http://www.sinatrarb.com/intro-jp.html"} Sinatra
     ,
     %a{:href => "http://haml-lang.com/"} Haml
-    , and
+    ,
     %a{:href => "http://ranguba.org/"} rroonga
 
     %form{:action => url("/search", false, true), :method => "post"}
@@ -24,6 +24,7 @@
         %input{:type => "text", :name => "word", :size => 30, :value => @params[:word]}
         %input{:type => "submit", :value => "search!"}
     %p
-      - if @pages
-        - @pages.each do |page|
-          = page
+      - if @links
+        - @links.each do |link|
+          %p
+            %a{:href => link}= link

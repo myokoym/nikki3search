@@ -9,9 +9,9 @@ end
 
 post "/search" do
   begin
-    @pages = []
-  rescue => e
-    return "Error: #{e}"
+    @links = search(params[:word])
+  rescue
+    $stderr.puts $!.message
   end
 
   @params = params
@@ -24,6 +24,20 @@ get "/register" do
 end
 
 private
+def search(word)
+  links = []
+  GroongaDatabase.new.open("db") do |database|
+    pages = database.pages.select do |v|
+      v.html =~ word
+    end
+
+    pages.each do |page|
+      links << page.link
+    end
+  end
+  links
+end
+
 def register(uri)
   parsed_uri = URI.parse(uri)
   scheme= parsed_uri.scheme
@@ -33,15 +47,15 @@ def register(uri)
   links = []
   open(uri) do |page|
     page.each_line do |line|
-      p line
       links << line.scan(/['"]((?:\.|#{scheme}:\/\/#{hostname})[^'"]+\.html?)['"]/)
     end
   end
 
   GroongaDatabase.new.open("db") do |database|
     links.flatten.uniq.each do |link|
-      html = open(link.sub(/^\./, "#{scheme}://#{hostname}")).read
-      database.add(link, html)
+      expanded_link = link.sub(/^\./, "#{scheme}://#{hostname}")
+      html = open(expanded_link).read.force_encoding("UTF-8")
+      database.add(expanded_link, html)
     end
   end
 end

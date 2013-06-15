@@ -24,9 +24,10 @@ class GroongaDatabase
     end
   end
 
-  def add(url, html)
+  def add(link, html)
     pages = Groonga["Pages"]
-    pages.add(url, :html => html)
+    pages.add(link, :link => link,
+                    :html => html)
   end
 
   def close
@@ -56,6 +57,7 @@ class GroongaDatabase
   def populate_schema
     Groonga::Schema.define do |schema|
       schema.create_table("Pages", :type => :hash) do |table|
+        table.short_text("link")
         table.text("html")
       end
 
@@ -63,6 +65,7 @@ class GroongaDatabase
                           :type => :patricia_trie,
                           :key_normalize => true,
                           :default_tokenizer => "TokenBigram") do |table|
+        table.index("Pages.link")
         table.index("Pages.html")
       end
     end

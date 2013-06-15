@@ -18,7 +18,7 @@ class NikkiSearchTest < Test::Unit::TestCase
   end
 
   def test_search
-    post "/search"
+    post "/search", {"word" => "cairo"}
     assert_true(last_response.ok?)
   end
 
